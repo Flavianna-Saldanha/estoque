@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import router from './routes';
+import { globalErrorHandler } from './middlewares/error.middleware';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,7 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use('/static', express.static('public'));
+
 app.use('/api', router);
+
+app.use(globalErrorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
