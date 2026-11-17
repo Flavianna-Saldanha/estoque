@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { getServerApi } from '@/lib/server-api'
 import { getFieldErrors } from '@/lib/utils'
 import { userSchema } from '@/schemas/user'
+import { userService } from '@/services/user'
 
 export async function upsertUserAction(prevState: any, formData: FormData) {
     const id = formData.get('id') as string | null
@@ -40,43 +41,17 @@ export async function upsertUserAction(prevState: any, formData: FormData) {
         }
     }
 
+		const upsertResult = await userService.upsertUser(
+			id, 
+			rawData,
+			formData.get('avatar') as File
+		);
+
     const api = await getServerApi()
 
-    try {
-        let response;
-        if (!id) {
-            // Create user (JSON)
-            response = await api.post('/api/users', {
-                name: rawData.name,
-                email: rawData.email,
-                password: rawData.password
-            })
-        } else {
-            // UPDATE:
-            const payload = new FormData()
-            payload.append('name', rawData.name as string)
-            payload.append('email', rawData.email as string)
-            if (password) payload.append('password', password)
-
-            const avatar = formData.get('avatar') as File
-            if (avatar && avatar.size > 0) {
-                payload.append('avatar', avatar)
-            }
-
-            response = await api.put(`/api/users/${id}`, payload, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+    if (upsertResult.data.error) {
+            return { error: upsertResult.data.error }
         }
-
-        if (response.data.error) {
-            return { error: response.data.error }
-        }
-
-    } catch (error: any) {
-        return { error: error.response?.data?.error || 'Erro ao salvar usuário' }
-    }
 
     revalidatePath('/users')
     redirect('/users')
