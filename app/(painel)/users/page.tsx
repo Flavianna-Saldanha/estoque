@@ -55,7 +55,7 @@ export default async function Page({ searchParams }: Props) {
                         <TableHead>Nome</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Função</TableHead>
-                        <TableHead className="w-[150px]">Ações</TableHead>
+                        <TableHead className="w-37.5">Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

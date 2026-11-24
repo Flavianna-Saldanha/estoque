@@ -1,4 +1,3 @@
-import { Pagination } from "@/components/pagination";
 import { PageTitle } from "@/components/page-title";
 import { CategoryItem } from "@/components/categories/category-item";
 import { EmptyState } from "@/components/empty-state";
@@ -45,7 +44,7 @@ export default async function Page() {
                     <TableRow>
                         <TableHead>Nome</TableHead>
                         <TableHead>Produtos</TableHead>
-                        <TableHead className="w-[150px]">Ações</TableHead>
+                        <TableHead className="w-37.5">Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

@@ -52,7 +52,7 @@ export default async function Page({ searchParams }: Props) {
 
             {products.length === 0 ? (
                 <div className="text-center p-8 text-muted-foreground">
-                    Nenhum produto encontrado para "{name}".
+                    Nenhum produto encontrado para <strong>{name}</strong>.
                 </div>
             ) : (
                 <Table>
