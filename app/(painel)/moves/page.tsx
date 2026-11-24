@@ -32,10 +32,6 @@ export default async function Page({ searchParams }: Props) {
     const movesRes = await moveService.getMoves(offset, limit);
     const moves = (movesRes.data as Move[]) || [];
 
-    const currentCount = moves.length;
-    const hasMore = currentCount === limit;
-    const count = hasMore ? (page * limit + 1) : ((page - 1) * limit + currentCount);
-
     if (moves.length === 0 && page === 1) {
         return (
             <div>
@@ -70,7 +66,10 @@ export default async function Page({ searchParams }: Props) {
                 </TableBody>
             </Table>
 
-            <Pagination limit={limit} count={count} />
+            <Pagination 
+							disablePrev={page <= 1}
+							disableNext={moves.length < limit}
+						/>
         </div>
     );
 }

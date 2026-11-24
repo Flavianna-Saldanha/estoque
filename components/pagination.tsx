@@ -4,11 +4,11 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 type Props = {
-    limit: number;
-    count: number;
+    disablePrev: boolean;
+		disableNext: boolean;
 }
 
-export const Pagination = ({ limit, count }: Props) => {
+export const Pagination = ({ disablePrev, disableNext }: Props) => {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -25,14 +25,14 @@ export const Pagination = ({ limit, count }: Props) => {
         <div className="flex justify-end gap-2 mt-4">
             <Button
                 variant="outline"
-                disabled={page <= 1}
+                disabled={disablePrev}
                 onClick={() => handlePageChange(page - 1)}
             >
                 Anterior
             </Button>
             <Button
                 variant="outline"
-                disabled={page * limit >= count}
+                disabled={disableNext}
                 onClick={() => handlePageChange(page + 1)}
             >
                 Próximo

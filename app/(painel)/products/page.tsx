@@ -31,13 +31,9 @@ export default async function Page({ searchParams }: Props) {
     const limit = 10;
     const offset = (page - 1) * limit;
 
-    const productsRes = await productService.getProducts(offset, limit + 1, name);
+    const productsRes = await productService.getProducts(offset, limit, name);
 
-    const allFetchedProducts = (productsRes.data as Product[]) || [];
-
-    const hasMore = allFetchedProducts.length > limit;
-    const products = hasMore ? allFetchedProducts.slice(0, limit) : allFetchedProducts;
-    const count = hasMore ? (page * limit) + 1 : (page - 1) * limit + products.length;
+    const products = (productsRes.data as Product[]) || [];
 
     // No products and no active search → show empty state
     if (products.length === 0 && !name) {
@@ -64,9 +60,9 @@ export default async function Page({ searchParams }: Props) {
                         <TableRow>
                             <TableHead>Nome</TableHead>
                             <TableHead className="hidden lg:block">Categoria</TableHead>
-                            <TableHead className="w-[100px]">Preço Unit.</TableHead>
-                            <TableHead className="w-[100px]">Qt. em Estoque</TableHead>
-                            <TableHead className="w-[150px]">Ações</TableHead>
+                            <TableHead className="w-25">Preço Unit.</TableHead>
+                            <TableHead className="w-25">Qt. em Estoque</TableHead>
+                            <TableHead className="w-37.5">Ações</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -77,7 +73,7 @@ export default async function Page({ searchParams }: Props) {
                 </Table>
             )}
 
-            <Pagination limit={limit} count={count} />
+            <Pagination disablePrev={page <= 1} disableNext={products.length < limit} />
         </div>
     );
 }

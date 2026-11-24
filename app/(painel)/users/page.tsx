@@ -29,12 +29,8 @@ export default async function Page({ searchParams }: Props) {
     const limit = 10;
     const offset = (page - 1) * limit;
 
-    const usersRes = await userService.getUsers(offset, limit + 1);
-    const allFetchedUsers = (usersRes.data as User[]) || [];
-
-    const hasMore = allFetchedUsers.length > limit;
-    const users = hasMore ? allFetchedUsers.slice(0, limit) : allFetchedUsers;
-    const count = hasMore ? (page * limit) + 1 : (page - 1) * limit + users.length;
+    const usersRes = await userService.getUsers(offset, limit);
+    const users = (usersRes.data as User[]) || [];
 
     if (users.length === 0) {
         return (
@@ -69,7 +65,7 @@ export default async function Page({ searchParams }: Props) {
                 </TableBody>
             </Table>
 
-            <Pagination limit={limit} count={count} />
+            <Pagination disablePrev={page <= 1} disableNext={users.length < limit} />
         </div>
     );
 }

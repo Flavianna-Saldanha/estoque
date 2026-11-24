@@ -19,19 +19,9 @@ const pageTitle = (
     />
 );
 
-type Props = {
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-};
-
-export default async function Page({ searchParams }: Props) {
-    const params = await searchParams;
-    const page = typeof params.page === 'string' ? parseInt(params.page) : 1;
-    const limit = 10;
-    const offset = (page - 1) * limit;
-
+export default async function Page() {
     const categoriesRes = await categoryService.getAllCategories(true);
     const categories = (categoriesRes.data as Category[]) || [];
-    const paginatedCategories = categories.slice(offset, offset + limit);
 
     if (categories.length === 0) {
         return (
@@ -59,13 +49,11 @@ export default async function Page({ searchParams }: Props) {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {paginatedCategories.map((item) => (
+                    {categories.map((item) => (
                         <CategoryItem key={item.id} category={item} />
                     ))}
                 </TableBody>
             </Table>
-
-            <Pagination limit={limit} count={categories.length} />
         </div>
     );
 }
