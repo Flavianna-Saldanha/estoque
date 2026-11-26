@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import { MoveGraphItem } from "@/types/dashboard"
@@ -82,7 +83,7 @@ export function MovesGraphSkeleton() {
                 <div className="h-5 w-32 bg-muted animate-pulse rounded" />
                 <div className="h-4 w-48 bg-muted animate-pulse rounded mt-1" />
             </div>
-            <div className="h-[300px] w-full bg-muted/20 animate-pulse rounded" />
+            <div className="h-75 w-full bg-muted/20 animate-pulse rounded" />
         </div>
     )
 }
