@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use server'
 
 import { redirect } from 'next/navigation'
@@ -6,6 +8,7 @@ import { getServerApi } from '@/lib/server-api'
 import { toCents, getFieldErrors } from '@/lib/utils'
 
 import { productSchema } from '@/schemas/product'
+import { productService } from '@/services/product'
 
 export async function upsertProductAction(prevState: any, formData: FormData) {
   const id = formData.get('id') as string | null
@@ -36,24 +39,10 @@ export async function upsertProductAction(prevState: any, formData: FormData) {
     unitPrice: toCents(unitPrice) // Convert to cents
   }
 
-  const api = await getServerApi()
+	const upsertReq = await productService.upsertProduct(id, payload);
 
-  try {
-    let response;
-    if (id) {
-      // Update
-      response = await api.put(`/api/products/${id}`, payload)
-    } else {
-      // Create
-      response = await api.post('/api/products', payload)
-    }
-
-    if (response.data.error) {
-      return { error: response.data.error }
-    }
-
-  } catch (error: any) {
-    return { error: error.response?.data?.error || 'Erro ao salvar produto' }
+  if (upsertReq.data.error) {
+    return { error: upsertReq.data.error }
   }
 
   revalidatePath('/products')
