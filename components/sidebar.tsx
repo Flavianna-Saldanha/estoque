@@ -19,6 +19,7 @@ import { ThemeToggle } from "./theme-toggle"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { logoutAction } from "@/actions/auth"
+import { usePathname } from "next/navigation"
 
 type Props = {
   user: {
@@ -29,9 +30,12 @@ type Props = {
 }
 
 export function AppSidebar({ user }: Props) {
+  const pathname = usePathname()
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`)
+
   return (
-    <Sidebar>
-      <SidebarHeader className="text-center">
+    <Sidebar className="app-sidebar">
+      <SidebarHeader>
         <Logo />
       </SidebarHeader>
       <SidebarContent>
@@ -40,7 +44,7 @@ export function AppSidebar({ user }: Props) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/dashboard">
-                  <SidebarMenuButton>
+                  <SidebarMenuButton isActive={isActive("/dashboard")}>
                     <LayoutDashboard /> <span>Dashboard</span>
                   </SidebarMenuButton>
                 </Link>
@@ -55,14 +59,14 @@ export function AppSidebar({ user }: Props) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/categories">
-                  <SidebarMenuButton>
+                  <SidebarMenuButton isActive={isActive("/categories")}>
                     <Search /> <span>Categorias</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/users">
-                  <SidebarMenuButton>
+                  <SidebarMenuButton isActive={isActive("/users")}>
                     <UserIcon /> <span>Usuários</span>
                   </SidebarMenuButton>
                 </Link>
@@ -77,14 +81,14 @@ export function AppSidebar({ user }: Props) {
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/products">
-                  <SidebarMenuButton>
+                  <SidebarMenuButton isActive={isActive("/products")}>
                     <Inbox /> <span>Produtos</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <Link href="/moves">
-                  <SidebarMenuButton>
+                  <SidebarMenuButton isActive={isActive("/moves")}>
                     <CalendarSearch /> <span>Entrada/Saída</span>
                   </SidebarMenuButton>
                 </Link>
@@ -103,11 +107,11 @@ export function AppSidebar({ user }: Props) {
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{user.name}</p>
-            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+              <p className="sidebar-user-name text-sm font-medium truncate">{user.name}</p>
+              <p className="sidebar-user-email text-xs truncate">{user.email}</p>
           </div>
           <ThemeToggle />
-          <Button onClick={logoutAction} size="icon" variant="outline" className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20">
+          <Button onClick={logoutAction} size="icon" variant="outline" className="sidebar-control-button sidebar-logout-button hover:bg-destructive hover:text-white">
             <LogOut />
           </Button>
         </div>

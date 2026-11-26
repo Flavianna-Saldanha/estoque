@@ -7,10 +7,10 @@ type Props = {
 };
 export const PageTitle = ({ title, leftSide, rightSide }: Props) => {
 	return (
-		<h1 className="border-b mb-4 pb-2 flex items-center">
-			{leftSide && <div className="mr-2">{leftSide}</div>}
-			<div className="font-bold text-2xl flex-1">{title}</div>
-			{rightSide && <div className="ml-2">{rightSide}</div>}
-		</h1>
+		<header className="page-title">
+			{leftSide && <div className="page-title-side">{leftSide}</div>}
+			<h1 className="page-title-heading">{title}</h1>
+			{rightSide && <div className="page-title-side">{rightSide}</div>}
+		</header>
 	);
 };

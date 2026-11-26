@@ -1,5 +1,4 @@
 import { Product } from "@/types/product";
-import { cn } from "@/lib/utils";
 import { formatCurrency } from "@/lib/utils";
 
 interface ProductListProps {
@@ -11,7 +10,7 @@ interface ProductListProps {
 
 export function ProductList({ title, description, products, emptyMessage = "Nenhum produto encontrado" }: ProductListProps) {
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow">
+        <div className="dashboard-card">
             <div className="p-6 pb-4">
                 <h3 className="font-semibold leading-none tracking-tight">{title}</h3>
                 <p className="text-sm text-muted-foreground mt-1">{description}</p>
@@ -48,7 +47,7 @@ export function ProductList({ title, description, products, emptyMessage = "Nenh
 
 export function ProductListSkeleton() {
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow">
+        <div className="dashboard-card">
             <div className="p-6 pb-4">
                 <div className="h-5 w-32 bg-muted animate-pulse rounded" />
                 <div className="h-4 w-48 bg-muted animate-pulse rounded mt-1" />

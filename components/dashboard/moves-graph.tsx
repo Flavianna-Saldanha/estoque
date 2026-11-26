@@ -9,7 +9,7 @@ interface MovesGraphProps {
 
 export function MovesGraph({ data }: MovesGraphProps) {
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow p-6">
+        <div className="dashboard-card p-6">
             <div className="flex flex-col space-y-1.5 pb-4">
                 <h3 className="font-semibold leading-none tracking-tight">Saídas Diárias</h3>
                 <p className="text-sm text-muted-foreground">Volume de saídas no período selecionado</p>
@@ -36,6 +36,9 @@ export function MovesGraph({ data }: MovesGraphProps) {
                             tickFormatter={(value) => `R$ ${(value / 100).toFixed(0)}`}
                         />
                         <Tooltip
+                            cursor={{ fill: "var(--primary)", opacity: 0.08 }}
+                            animationDuration={180}
+                            animationEasing="ease-out"
                             formatter={(value) => {
                                 return [`R$ ${(Number(value) / 100).toFixed(2)}`, 'Total'];
                             }}
@@ -44,7 +47,25 @@ export function MovesGraph({ data }: MovesGraphProps) {
                                 const [year, month, day] = label.split('-');
                                 return `${day}/${month}/${year}`;
                             }}
-                            contentStyle={{ backgroundColor: 'var(--background)', borderColor: 'var(--border)' }}
+                            wrapperStyle={{ outline: "none" }}
+                            contentStyle={{
+                                backgroundColor: "var(--popover)",
+                                border: "1px solid var(--border)",
+                                borderRadius: "0.85rem",
+                                boxShadow: "0 12px 30px color-mix(in oklab, var(--foreground) 16%, transparent)",
+                                padding: "0.65rem 0.9rem",
+                            }}
+                            labelStyle={{
+                                color: "var(--muted-foreground)",
+                                fontSize: "0.7rem",
+                                fontWeight: 600,
+                                marginBottom: "0.35rem",
+                            }}
+                            itemStyle={{
+                                color: "var(--foreground)",
+                                fontSize: "0.8rem",
+                                fontWeight: 600,
+                            }}
                         />
                         <Bar dataKey="totalValue" fill="currentColor" radius={[4, 4, 0, 0]} className="fill-primary" />
                     </BarChart>
@@ -56,7 +77,7 @@ export function MovesGraph({ data }: MovesGraphProps) {
 
 export function MovesGraphSkeleton() {
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow p-6">
+        <div className="dashboard-card p-6">
             <div className="flex flex-col space-y-1.5 pb-4">
                 <div className="h-5 w-32 bg-muted animate-pulse rounded" />
                 <div className="h-4 w-48 bg-muted animate-pulse rounded mt-1" />

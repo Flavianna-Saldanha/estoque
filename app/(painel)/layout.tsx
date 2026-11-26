@@ -17,12 +17,16 @@ export default async function PainelLayout({
     return (
         <SidebarProvider>
             <AppSidebar user={user} />
-            <div className="flex-1 relative p-4 pt-10">
-                <div className="absolute left-1 top-1">
-                    <SidebarTrigger />
+            <main className="app-main flex-1">
+                <div className="app-topbar">
+                    <div className="app-topbar-label">
+                        <SidebarTrigger className="rounded-xl border border-border bg-card shadow-sm" />
+                        <span>Casa de Queijo Araçar</span>
+                    </div>
+                    <span className="app-status">Estoque atualizado</span>
                 </div>
                 {children}
-            </div>
+            </main>
         </SidebarProvider>
     );
 }
